@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/RugbyManager.API/bin/Debug/netcoreapp3.1
+/RugbyManager.API/obj
+/RugbyManager.ClassLibrary/bin/Debug/netcoreapp3.1
+/RugbyManager.ClassLibrary/obj
+/RugbyManager.XUnitTest/bin/Debug/netcoreapp3.1
+/RugbyManager.XUnitTest/obj
