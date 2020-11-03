@@ -12,7 +12,9 @@ namespace RugbyManager.API.DataAccessLayer
         Task AddTeamAsync(TeamModel team);
         Task AddLeagueAsync(LeagueModel league);
         Task DeletePlayerAsync(int id);
+        Task DeletePlayerFromTeamAsync(int playerId, int teamId);
         Task DeleteTeamAsync(int id);
+        Task DeleteTeamFromLeagueAsync(int teamId, int leagueId);
         Task DeleteLeagueAsync(int id);
         Task GetPlayerAsync(int id);
         Task GetPlayersAsync(int userId);

@@ -1,5 +1,6 @@
 ﻿using RugbyManager.API.DataAccessLayer;
 using RugbyManager.ClassLibrary.Models;
+using RugbyManager.ClassLibrary.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +27,26 @@ namespace RugbyManager.API.Engines
             //TODO - apply logic
         }
 
-        public async Task<List<TournamentModel>> GetTournamentResultsForLeagueAsync(int leagueId)
+        public async Task<List<TournamentModel>> GetTournamentDrawForLeagueAsync(int leagueId)
         {
-            return await _managerAccess.GetTournamentDrawForLeagueAsync(leagueId);
+            var results = await _managerAccess.GetTournamentDrawForLeagueAsync(leagueId);
+            return results;
+        }
+
+        public async Task<TournamentResultsModel> GetTournamentResultsForLeagueAsync(int leagueId)
+        {
+            var results = await _managerAccess.GetTournamentDrawForLeagueAsync(leagueId);
+            var processed = await CalculateTournamentResults(results);
+            return processed;
+        }
+
+        private async Task<TournamentResultsModel> CalculateTournamentResults(List<TournamentModel> tournament)
+        {
+            var resultsModel = new TournamentResultsModel();
+
+            //Todo
+
+            return resultsModel;
         }
     }
 }

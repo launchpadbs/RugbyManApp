@@ -34,7 +34,17 @@ namespace RugbyManager.API.DataAccessLayer
             throw new NotImplementedException();
         }
 
+        public async Task DeletePlayerFromTeamAsync(int playerId, int teamId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task DeleteTeamAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task DeleteTeamFromLeagueAsync(int teamId, int leagueId)
         {
             throw new NotImplementedException();
         }

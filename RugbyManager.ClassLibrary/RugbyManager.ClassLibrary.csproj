@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Configurations>Debug;Release;UAT</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="Config\" />
-    <Folder Include="Views\" />
   </ItemGroup>
 
 </Project>

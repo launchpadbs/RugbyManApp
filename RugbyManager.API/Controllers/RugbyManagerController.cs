@@ -11,7 +11,7 @@ using RugbyManager.ClassLibrary.Models;
 
 namespace RugbyManager.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class RugbyManagerController : ControllerBase
     {
@@ -97,6 +97,36 @@ namespace RugbyManager.API.Controllers
         {
             try
             {
+                if (league != null)
+                {
+                    //Todo
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("League payload cannot be empty");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error adding league with message: {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// Adds Team to League
+        /// </summary>
+        /// <param name="teamId"></param>
+        /// <param name="leagueId"></param>
+        /// <returns></returns>
+        [Route("AddTeamToLeague/{teamId}/{leagueId}")]
+        [HttpPost]
+        public async Task<ActionResult> AddTeamToLeagueAsync(int teamId, int leagueId)
+        {
+            try
+            {
                 //Todo
                 return Ok();
             }
@@ -131,6 +161,29 @@ namespace RugbyManager.API.Controllers
         }
 
         /// <summary>
+        /// Remove a player from a team
+        /// </summary>
+        /// <param name="playerId"></param>
+        /// <param name="teamId"></param>
+        /// <returns></returns>
+        [Route("DeletePlayerFromTeam/{playerId}/{teamId}")]
+        [HttpDelete]
+        public async Task<ActionResult> DeletePlayerFromTeamAsync(int playerId, int teamId)
+        {
+            try
+            {
+                //Todo
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error removing player from team with message: {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        /// <summary>
         /// Delete Team from system if not in active League
         /// </summary>
         /// <param name="teamId"></param>
@@ -147,6 +200,29 @@ namespace RugbyManager.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error removing team with message: {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// Delete Team from League if not in active Tournament
+        /// </summary>
+        /// <param name="teamId"></param>
+        /// <param name="leagueId"></param>
+        /// <returns></returns>
+        [Route("DeleteTeamFromLeague/{teamId}/{leagueId}")]
+        [HttpDelete]
+        public async Task<ActionResult> DeleteTeamFromLeagueAsync(int teamId, int leagueId)
+        {
+            try
+            {
+                //Todo
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error removing team from league with message: {ex.Message}");
                 return BadRequest(ex.Message);
             }
 
@@ -342,6 +418,23 @@ namespace RugbyManager.API.Controllers
             }
         }
 
+        [Route("GetTournamentResultsForLeague/{leagueId}")]
+        [HttpGet]
+        public async Task<ActionResult> GetTournamentResultsForLeagueAsync(int leagueId)
+        {
+            try
+            {
+                var result = await _leagueManager.GetTournamentResultsForLeague(leagueId);
+                //Todo - business logic
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving Tournament Draw for League Id: {leagueId}, with message: {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
         /// <summary>
         /// Get all Tournaments Information
         /// </summary>
@@ -414,8 +507,15 @@ namespace RugbyManager.API.Controllers
         {
             try
             {
-                //Todo
-                return Ok();
+                if (playerTeamUpdate != null)
+                {
+                    //Todo
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Payload cannot be empty");
+                }
             }
             catch (Exception ex)
             {

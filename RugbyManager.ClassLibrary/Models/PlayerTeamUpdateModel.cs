@@ -9,10 +9,10 @@ namespace RugbyManager.ClassLibrary.Models
     {
         [Required]
         public int UserId { get; set; }
-        public int OldTeamsId { get; set; }
+        public int OldTeamId { get; set; }
         [Required]
-        public int NewTeamsId { get; set; }
+        public int NewTeamId { get; set; }
         [Required]
-        public int PlayersId { get; set; }
+        public int PlayerId { get; set; }
     }
 }

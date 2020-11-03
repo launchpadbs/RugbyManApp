@@ -3,30 +3,43 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RugbyManager.API", "RugbyManager.API\RugbyManager.API.csproj", "{DE3BD31F-D8F8-402E-B01E-801139F3D953}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RugbyManager.API", "RugbyManager.API\RugbyManager.API.csproj", "{DE3BD31F-D8F8-402E-B01E-801139F3D953}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RugbyManager.XUnitTest", "RugbyManager.XUnitTest\RugbyManager.XUnitTest.csproj", "{A7F5C578-49AE-4DED-8D87-631F1DB96119}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RugbyManager.XUnitTest", "RugbyManager.XUnitTest\RugbyManager.XUnitTest.csproj", "{A7F5C578-49AE-4DED-8D87-631F1DB96119}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RugbyManager.ClassLibrary", "RugbyManager.ClassLibrary\RugbyManager.ClassLibrary.csproj", "{39632A14-4C56-45EF-AC0B-375CA3638686}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RugbyManager.ClassLibrary", "RugbyManager.ClassLibrary\RugbyManager.ClassLibrary.csproj", "{39632A14-4C56-45EF-AC0B-375CA3638686}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DBScripts", "DBScripts", "{F1C38396-4919-470E-A15E-924738BA5900}"
+	ProjectSection(SolutionItems) = preProject
+		RugbyManagerTables.sql = RugbyManagerTables.sql
+		sp_InsertNewPlayer.sql = sp_InsertNewPlayer.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		UAT|Any CPU = UAT|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DE3BD31F-D8F8-402E-B01E-801139F3D953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DE3BD31F-D8F8-402E-B01E-801139F3D953}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE3BD31F-D8F8-402E-B01E-801139F3D953}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE3BD31F-D8F8-402E-B01E-801139F3D953}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE3BD31F-D8F8-402E-B01E-801139F3D953}.UAT|Any CPU.ActiveCfg = UAT|Any CPU
+		{DE3BD31F-D8F8-402E-B01E-801139F3D953}.UAT|Any CPU.Build.0 = UAT|Any CPU
 		{A7F5C578-49AE-4DED-8D87-631F1DB96119}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A7F5C578-49AE-4DED-8D87-631F1DB96119}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7F5C578-49AE-4DED-8D87-631F1DB96119}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7F5C578-49AE-4DED-8D87-631F1DB96119}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7F5C578-49AE-4DED-8D87-631F1DB96119}.UAT|Any CPU.ActiveCfg = UAT|Any CPU
+		{A7F5C578-49AE-4DED-8D87-631F1DB96119}.UAT|Any CPU.Build.0 = UAT|Any CPU
 		{39632A14-4C56-45EF-AC0B-375CA3638686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{39632A14-4C56-45EF-AC0B-375CA3638686}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39632A14-4C56-45EF-AC0B-375CA3638686}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39632A14-4C56-45EF-AC0B-375CA3638686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39632A14-4C56-45EF-AC0B-375CA3638686}.UAT|Any CPU.ActiveCfg = UAT|Any CPU
+		{39632A14-4C56-45EF-AC0B-375CA3638686}.UAT|Any CPU.Build.0 = UAT|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

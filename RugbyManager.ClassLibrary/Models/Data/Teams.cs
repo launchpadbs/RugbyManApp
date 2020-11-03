@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace RugbyManager.ClassLibrary.Models
+namespace RugbyManager.ClassLibrary.Models.Data
 {
-    public class TeamModel
+    class Teams
     {
-        [Required]
+        public int TeamId { get; set; }
         public string Name { get; set; }
-        [Required]
         public string Location { get; set; }
-        [Required]
         public string Colour { get; set; }
         public int StadiumId { get; set; }
         public int UserId { get; set; }
+        public bool Active { get; set; }
     }
 }
