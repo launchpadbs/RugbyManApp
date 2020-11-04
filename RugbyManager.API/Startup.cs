@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,10 +15,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RugbyManager.API.DataAccessLayer;
 using RugbyManager.API.Engines;
 using RugbyManager.API.Managers;
+using RugbyManager.API.Utilities;
+using RugbyManager.ClassLibrary.Config;
 
 namespace RugbyManager.API
 {
@@ -32,7 +38,9 @@ namespace RugbyManager.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IConfiguration>(Configuration);
+            services.Configure<JWTokenManagement>(Configuration.GetSection("JWTokenManagement"));
 
+            services.AddScoped<ISecurity, Security>();
             services.AddSingleton<IRugbyManagerAccess, RugbyManagerAccess>();
             services.AddScoped<ITournamentEngine, TournamentEngine>();
             services.AddScoped<IPlayerManager, PlayerManager>();
@@ -42,8 +50,35 @@ namespace RugbyManager.API
             services.AddHealthChecks();
 
             //Add Authentication with JwtBearer config
-
+            services.AddAuthentication(x =>
+                {
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    var token = Configuration.GetSection("JWTokenManagement").Get<JWTokenManagement>();
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(token.Secret)),
+                        ValidateIssuer = true,
+                        ValidIssuer = token.Issuer,
+                        ValidateAudience = false,
+                        ValidAudience = token.Audience,
+                        RequireExpirationTime = true,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
+                    };
+                }
+            );
             //Add Authorization
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Manager", policy => policy.RequireClaim(ClaimTypes.Role, "Manager"));
+            });
 
             // Set up logging
             services.AddLogging(loggingBuilder =>
@@ -64,10 +99,35 @@ namespace RugbyManager.API
                     TermsOfService = new Uri("https://example.com/terms"),
                     Contact = new OpenApiContact
                     {
-                        Name = "Kevin Tomsett",
+                        Name = "Kevin T",
                         Email = "kevin.tomsett@gmail.com",
                     }
                 });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header i.e \"Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);

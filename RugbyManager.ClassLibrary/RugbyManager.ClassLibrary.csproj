@@ -5,8 +5,4 @@
     <Configurations>Debug;Release;UAT</Configurations>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Config\" />
-  </ItemGroup>
-
 </Project>

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RugbyManager.API.Managers;
+using RugbyManager.API.Utilities;
 using RugbyManager.ClassLibrary.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -16,16 +18,40 @@ namespace RugbyManager.API.Controllers
     public class RugbyManagerController : ControllerBase
     {
         private readonly ILogger<RugbyManagerController> _logger;
+        private readonly ISecurity _security;
         private readonly IPlayerManager _playerManager;
         private readonly ITeamManager _teamManager;
         private readonly ILeagueManager _leagueManager;
 
-        public RugbyManagerController(ILogger<RugbyManagerController> logger, IPlayerManager playerManager, ITeamManager teamManager, ILeagueManager leagueManager)
+        public RugbyManagerController(ILogger<RugbyManagerController> logger, ISecurity security, IPlayerManager playerManager, ITeamManager teamManager, ILeagueManager leagueManager)
         {
             _logger = logger;
             _playerManager = playerManager;
             _teamManager = teamManager;
             _leagueManager = leagueManager;
+            _security = security;
+        }
+
+        /// <summary>
+        /// Generate JWT Security token for API endpoint authorization
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [Route("GetSecurityToken/{userName}")]
+        [HttpGet]
+        public async Task<ActionResult> GetSecurityTokenAsync(string userName)
+        {
+            try
+            {
+                var response = await _security.GenerateJWTokenAsync(userName, new List<string>(){ "Manager" });
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error fetching security token with message: {ex.Message}");
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -33,6 +59,7 @@ namespace RugbyManager.API.Controllers
         /// </summary>
         /// <param name="player"></param>
         /// <returns></returns>
+        //[Authorize(Policy = "Manager")]
         [Route("AddPlayer")]
         [HttpPost]
         public async Task<ActionResult> AddPlayerAsync([FromBody] PlayerModel player)
